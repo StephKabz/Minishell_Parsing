@@ -6,7 +6,7 @@
 /*   By: kingstephane <kingstephane@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:51:22 by kingstephan       #+#    #+#             */
-/*   Updated: 2025/09/04 17:18:47 by kingstephan      ###   ########.fr       */
+/*   Updated: 2025/09/06 03:55:08 by kingstephan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static int	handle_word_token(char *line, int *i, t_token **tokens)
 	}
 	if (!emit_token(tokens, word, TOKEN_WORD))
 	{
+		free(word);
 		free_token(*tokens);
 		return (0);
 	}
