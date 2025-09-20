@@ -6,11 +6,34 @@
 /*   By: kingstephane <kingstephane@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:08:37 by kingstephan       #+#    #+#             */
-/*   Updated: 2025/09/13 16:58:04 by kingstephan      ###   ########.fr       */
+/*   Updated: 2025/09/20 03:42:32 by kingstephan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+static int	handle_redirection_token(t_token **token, t_command *cmd)
+{
+	if ((*token)->type == TOKEN_REDIR_IN)
+		return (parse_redir_in(token, cmd));
+	else if ((*token)->type == TOKEN_REDIR_OUT)
+		return (parse_redir_out(token, cmd));
+	else if ((*token)->type == TOKEN_HEREDOC)
+		return (parse_heredoc(token, cmd));
+	else if ((*token)->type == TOKEN_REDIR_APPEND)
+		return (parse_redir_append(token, cmd));
+	return (0);
+}
+
+static int	process_token(t_token **token, t_command *cmd, int *i)
+{
+	if ((*token)->type == TOKEN_WORD)
+		return (parse_word(token, cmd, i));
+	else if ((*token)->type >= TOKEN_REDIR_IN 
+	&& (*token)->type <= TOKEN_REDIR_APPEND)
+		return(handle_redirection_token(token, cmd));
+	return (1);
+}
 
 t_command	*parse_single_command(t_token **token)
 {
@@ -23,46 +46,12 @@ t_command	*parse_single_command(t_token **token)
 		return (NULL);
 	while ((*token) && (*token)->type != TOKEN_PIPE)
 	{
-		if ((*token)->type == TOKEN_WORD)
+		if (!process_token(token, new_cmd, &i))
 		{
-			if (!parse_word(token, new_cmd, &i))
-			{
-				free_cmd_list(new_cmd);
-				return (NULL);
-			}
+			free_cmd_list(new_cmd);
+			return (NULL);
 		}
-		else if ((*token)->type == TOKEN_REDIR_IN)
-		{
-			if (!parse_redir_in(token, new_cmd))
-			{
-				free_cmd_list(new_cmd);
-				return (NULL);
-			}
-		}
-		else if ((*token)->type == TOKEN_HEREDOC)
-		{
-			if (!parse_heredoc(token, new_cmd))
-			{
-				free_cmd_list(new_cmd);
-				return (NULL);
-			}
-		}
-		else if ((*token)->type == TOKEN_REDIR_OUT)
-		{
-			if (!parse_redir_out(token, new_cmd))
-			{
-				free_cmd_list(new_cmd);
-				return (NULL);
-			}
-		}
-		else if ((*token)->type == TOKEN_REDIR_APPEND)
-		{
-			if (!parse_redir_append(token, new_cmd))
-			{
-				free_cmd_list(new_cmd);
-				return (NULL);
-			}
-		}
+		
 	}
 	new_cmd->argv[i] = NULL;
 	return (new_cmd);
@@ -89,10 +78,7 @@ t_command	*parsing_cmds(t_token **token)
 	{
 		new_cmd = tokens_to_cmd(token);
 		if (!new_cmd)
-		{
-			free_cmd_list(cmd_lst);
-			return (NULL);
-		}
+			return (free_cmd_list(cmd_lst) ,NULL);
 		if (cmd_lst == NULL)
 			cmd_lst = new_cmd;
 		else
