@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils2.c                                    :+:      :+:    :+:   */
+/*   parser_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kingstephane <kingstephane@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:59:36 by kingstephan       #+#    #+#             */
-/*   Updated: 2025/09/02 19:08:06 by kingstephan      ###   ########.fr       */
+/*   Updated: 2025/09/13 16:53:08 by kingstephan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	add_word_to_argv(t_token **token, t_command *cmd, int *i)
 {
 	if (!token || !(*token) || (*token)->type != TOKEN_WORD || !cmd)
 		return (0);
-	cmd->argv[*i] = safe_ft_strdup((*token)->string, NULL);
+	cmd->argv[*i] = ft_strdup((*token)->string);
 	if (!cmd->argv[*i])
 	{
 		clean_cmd_argv(cmd->argv, *i);

@@ -6,7 +6,7 @@
 /*   By: kingstephane <kingstephane@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 16:38:38 by kingstephan       #+#    #+#             */
-/*   Updated: 2025/09/04 13:47:24 by kingstephan      ###   ########.fr       */
+/*   Updated: 2025/09/12 16:17:35 by kingstephan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ char	*extract_D_quoted(char *line, int *i)
 	while (line[end] && line[end] != '"')
 		end++;
 	if (line[end] != '"')/*verifier la fin du double quote*/
+	{
+		(*i) = end;
 		return (NULL);
+	}
 	(*i) = end + 1;
 	return(ft_strndup(&line[start], (size_t)(end - start)));
 }
@@ -45,7 +48,10 @@ char	*extract_S_quoted(char *line, int *i)
 	while (line[end] && line[end] != '\'')
 		end++;
 	if (line[end] != '\'')/*verifier la fin du double quote*/
+	{
+		(*i) = end;
 		return (NULL);
+	}
 	(*i) = end + 1;
 	return(ft_strndup(&line[start], (size_t)(end - start)));
 }

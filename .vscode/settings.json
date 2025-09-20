@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"parser_utils22.C": "cpp",
-		"parser_utils2.C": "cpp"
+		"parser_utils2.C": "cpp",
+		"minishell.h": "c"
 	}
 }

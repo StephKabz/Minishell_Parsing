@@ -6,7 +6,7 @@
 /*   By: kingstephane <kingstephane@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:51:22 by kingstephan       #+#    #+#             */
-/*   Updated: 2025/09/06 03:55:08 by kingstephan      ###   ########.fr       */
+/*   Updated: 2025/09/12 16:40:24 by kingstephan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,17 @@ static int	handle_word_token(char *line, int *i, t_token **tokens)
 	if (!word)
 	{
 		free_token(*tokens);
+		*tokens = NULL;
 		return (0);
 	}
 	if (!emit_token(tokens, word, TOKEN_WORD))
 	{
 		free(word);
 		free_token(*tokens);
+		*tokens = NULL;
 		return (0);
 	}
+	free(word);
 	return (1);
 }
 /*fonction final qui va regarder dans la ligne de commande

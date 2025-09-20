@@ -6,7 +6,7 @@
 /*   By: kingstephane <kingstephane@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 19:47:29 by kingstephan       #+#    #+#             */
-/*   Updated: 2025/09/04 17:12:32 by kingstephan      ###   ########.fr       */
+/*   Updated: 2025/09/12 16:39:45 by kingstephan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	append_S_quoted(char *line, int *i, char **final_word)
 	if (!word)
 		{
 			free(*final_word);
+			*final_word = NULL;
 			return (0);
 		}
 	*final_word = ft_strjoin_and_free(*final_word, word);
@@ -37,6 +38,7 @@ static int	append_D_quoted(char *line, int *i, char **final_word)
 	if (!temp)
 	{
 		free(*final_word);
+		*final_word = NULL;
 		return (0);
 	}
 	word = expand_variables(temp);
@@ -44,6 +46,7 @@ static int	append_D_quoted(char *line, int *i, char **final_word)
 	if (!word)
 	{
 		free(*final_word);
+		*final_word = NULL;
 		return (0);
 	}
 	*final_word = ft_strjoin_and_free(*final_word, word);
@@ -61,6 +64,7 @@ static int	append_unquoted(char *line, int *i, char **final_word)
 	if (!temp)
 	{
 		free(*final_word);
+		*final_word = NULL;
 		return (0);
 	}
 	word = expand_variables(temp);
@@ -68,6 +72,7 @@ static int	append_unquoted(char *line, int *i, char **final_word)
 	if (!word)
 	{
 		free(*final_word);
+		*final_word = NULL;
 		return (0);
 	}
 	*final_word = ft_strjoin_and_free(*final_word, word);

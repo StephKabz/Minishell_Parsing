@@ -6,7 +6,7 @@
 /*   By: kingstephane <kingstephane@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:48:48 by kingstephan       #+#    #+#             */
-/*   Updated: 2025/09/04 15:49:28 by kingstephan      ###   ########.fr       */
+/*   Updated: 2025/09/12 16:35:26 by kingstephan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ t_token	*new_token(char *string, int type)
 	if (!new_token)
 		return (NULL);
 	new_token->string = ft_strdup(string);
+	if (!new_token->string)
+	{
+		free(new_token);
+		return (NULL);
+	}
 	new_token->type = type;
 	new_token->next = NULL;
 	return (new_token);

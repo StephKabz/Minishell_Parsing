@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils3.c                                     :+:      :+:    :+:   */
+/*   lexer_utils4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kingstephane <kingstephane@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:49:28 by kingstephan       #+#    #+#             */
-/*   Updated: 2025/09/02 18:50:23 by kingstephan      ###   ########.fr       */
+/*   Updated: 2025/09/13 17:29:21 by kingstephan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,11 @@ exemple '$USER = nom_de_hote'*/
 char	*get_var_value(char *name)
 {
 	char	*var_name;
+
 	if (!name)
 		return (NULL);
 	if (ft_strncmp(name, "?", 1) == 0)
-		return (ft_itoa(get_exit_status));
+		return (ft_itoa(g_exit_code));
 	var_name = ft_strdup(getenv(name));
 	if (!var_name)
 		return (ft_strdup(""));

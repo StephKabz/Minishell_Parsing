@@ -6,7 +6,7 @@
 /*   By: kingstephane <kingstephane@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:08:37 by kingstephan       #+#    #+#             */
-/*   Updated: 2025/09/04 17:08:51 by kingstephan      ###   ########.fr       */
+/*   Updated: 2025/09/13 16:58:04 by kingstephan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,50 @@ t_command	*parse_single_command(t_token **token)
 
 	i = 0;
 	new_cmd = init_cmd(nb_args(token));
+	if (!new_cmd)
+		return (NULL);
 	while ((*token) && (*token)->type != TOKEN_PIPE)
 	{
 		if ((*token)->type == TOKEN_WORD)
-			parse_word(token, new_cmd, &i);
+		{
+			if (!parse_word(token, new_cmd, &i))
+			{
+				free_cmd_list(new_cmd);
+				return (NULL);
+			}
+		}
 		else if ((*token)->type == TOKEN_REDIR_IN)
-			parse_redir_in(token, new_cmd);
+		{
+			if (!parse_redir_in(token, new_cmd))
+			{
+				free_cmd_list(new_cmd);
+				return (NULL);
+			}
+		}
 		else if ((*token)->type == TOKEN_HEREDOC)
-			parse_heredoc(token, new_cmd);
+		{
+			if (!parse_heredoc(token, new_cmd))
+			{
+				free_cmd_list(new_cmd);
+				return (NULL);
+			}
+		}
 		else if ((*token)->type == TOKEN_REDIR_OUT)
-			parse_redir_out(token, new_cmd);
+		{
+			if (!parse_redir_out(token, new_cmd))
+			{
+				free_cmd_list(new_cmd);
+				return (NULL);
+			}
+		}
 		else if ((*token)->type == TOKEN_REDIR_APPEND)
-			parse_redir_append(token, new_cmd);
+		{
+			if (!parse_redir_append(token, new_cmd))
+			{
+				free_cmd_list(new_cmd);
+				return (NULL);
+			}
+		}
 	}
 	new_cmd->argv[i] = NULL;
 	return (new_cmd);
@@ -57,7 +89,10 @@ t_command	*parsing_cmds(t_token **token)
 	{
 		new_cmd = tokens_to_cmd(token);
 		if (!new_cmd)
+		{
+			free_cmd_list(cmd_lst);
 			return (NULL);
+		}
 		if (cmd_lst == NULL)
 			cmd_lst = new_cmd;
 		else

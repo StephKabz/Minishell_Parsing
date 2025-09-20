@@ -6,7 +6,7 @@
 /*   By: kingstephane <kingstephane@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 13:43:00 by kingstephan       #+#    #+#             */
-/*   Updated: 2025/09/04 17:23:22 by kingstephan      ###   ########.fr       */
+/*   Updated: 2025/09/13 17:28:41 by kingstephan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define TOKEN_HEREDOC 3
 # define TOKEN_REDIR_APPEND 4
 # define TOKEN_PIPE 5
-int	get_exit_status;
+extern int	g_exit_code;
 /*structure d'un token*/
 typedef struct s_token
 {
@@ -96,11 +96,11 @@ int			is_redirection(t_token *token);
 int			skip_redirection_token(t_token **token);
 int			add_word_to_argv(t_token **token, t_command *cmd, int *i);
 /*---------------PARSER_UTILS1.C---------------*/
-void		parse_word(t_token **tokens, t_command *cmd, int *i);
-void		parse_redir_in(t_token **tokens, t_command *cmd);
-void		parse_heredoc(t_token **tokens, t_command *cmd);
-void		parse_redir_out(t_token **tokens, t_command *cmd);
-void		parse_redir_append(t_token **tokens, t_command *cmd);
+int			parse_word(t_token **tokens, t_command *cmd, int *i);
+int			parse_redir_in(t_token **tokens, t_command *cmd);
+int			parse_heredoc(t_token **tokens, t_command *cmd);
+int			parse_redir_out(t_token **tokens, t_command *cmd);
+int			parse_redir_append(t_token **tokens, t_command *cmd);
 /*---------------PARSER.C---------------*/
 t_command	*parse_single_command(t_token **token);
 t_command	*tokens_to_cmd(t_token **token);

@@ -6,13 +6,14 @@
 /*   By: kingstephane <kingstephane@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:36:16 by kingstephan       #+#    #+#             */
-/*   Updated: 2025/09/02 17:10:26 by kingstephan      ###   ########.fr       */
+/*   Updated: 2025/09/13 17:29:23 by kingstephan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 #include <readline/readline.h>
 #include <readline/history.h>
+int g_exit_code = 0;
 
 int	main(void)
 {

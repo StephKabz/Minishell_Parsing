@@ -6,7 +6,7 @@
 /*   By: kingstephane <kingstephane@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 19:19:51 by kingstephan       #+#    #+#             */
-/*   Updated: 2025/09/04 17:11:44 by kingstephan      ###   ########.fr       */
+/*   Updated: 2025/09/12 17:00:28 by kingstephan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,15 @@ static int handle_input_redir(char *line, t_token *token, int *i)
 		{
 			token->type = TOKEN_HEREDOC;
 			token->string = ft_strdup("<<");
+			if (!token->string)
+				return (0);
 			*i += 2;
 			return (1);
 		}
 		token->type = TOKEN_REDIR_IN;
 		token->string = ft_strdup("<");
+		if (!token->string)
+			return (0);
 		*i += 1;
 		return (1);
 	}
@@ -45,11 +49,15 @@ static int	handle_output_redir(char *line, t_token *token, int *i)
 		{
 			token->type = TOKEN_REDIR_APPEND;
 			token->string = ft_strdup(">>");
+			if (!token->string)
+				return (0);
 			*i += 2;
 			return (1);
 		}
 		token->type = TOKEN_REDIR_OUT;
 		token->string = ft_strdup(">");
+		if (!token->string)
+			return (0);
 		*i += 1;
 		return (1);
 	}
@@ -63,6 +71,8 @@ static int	handle_pipe(char *line, t_token *token, int *i)
 	{
 		token->type = TOKEN_PIPE;
 		token->string = ft_strdup("|");
+		if (!token->string)
+			return (0);
 		*i += 1;
 		return (1);	
 	}
