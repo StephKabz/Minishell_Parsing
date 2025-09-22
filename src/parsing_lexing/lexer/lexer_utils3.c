@@ -6,7 +6,7 @@
 /*   By: kingstephane <kingstephane@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 19:47:29 by kingstephan       #+#    #+#             */
-/*   Updated: 2025/09/12 16:39:45 by kingstephan      ###   ########.fr       */
+/*   Updated: 2025/09/22 19:07:43 by kingstephan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,37 @@ static int	append_unquoted(char *line, int *i, char **final_word)
 	return (1);
 }
 
-/*fonction qui collect tous les mots de la ligne de commande
-en double et single quote et aussi en dehors des quotes
-elle va ensuite extraire les mots et tous les concatener dans
-une variable final*/
+static int	process_quote_type(char *line, int *i, char **final_word)
+{
+	if (line[*i] == '\'')
+		return (append_S_quoted(line, i, final_word));
+	else if (line[*i] == '"')
+		return (append_D_quoted(line, i, final_word));
+	else
+		return (append_unquoted(line, i, final_word));
+}
+
 char	*collect_word(char *line, int *i)
+{
+	char	*final_word;
+
+	final_word = NULL;
+	if (!line || !line[*i] || is_white_space(line[*i])
+		|| is_operator(line[*i]))
+		return (NULL);
+	while (line[*i])
+	{
+		if (!line[*i] || is_white_space(line[*i]) || is_operator(line[*i]))
+			break;
+		if (!process_quote_type(line, i, &final_word))
+			return (NULL);
+	}
+	if (!final_word)
+		return (ft_strdup(""));
+	return (final_word);
+}
+
+/*char	*collect_word(char *line, int *i)
 {
 	char	*final_word;
 
@@ -117,4 +143,5 @@ char	*collect_word(char *line, int *i)
 	if (!final_word)
 		return (ft_strdup(""));
 	return (final_word);
-}
+}*/
+
